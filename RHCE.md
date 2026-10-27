@@ -395,3 +395,26 @@ Dodane zostało też do ansible.cfg
 `vault_password_file = ./secret.txt` - ale nie wiem czy jest to wymagane
 
 `ansible-playbook users.yml`
+
+16. Create a cronjob for user student
+
+`vim crontab.yml`
+
+---
+- name: use crontab
+  hosts: all
+  tasks:
+    - name: use cron job
+      cron:
+        name: "cronjob"
+        minute: "*/2"
+        user: student
+        job: logger "EX294 in progress"
+        state: present
+
+
+
+`ansible-playbook crontab.yml`
+
+Weryfikacja na wszystkich hostach
+`ansible all -m command -a "crontab -lu student"`
