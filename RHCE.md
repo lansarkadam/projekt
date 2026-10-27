@@ -44,14 +44,15 @@ ansible-navigator run packages.yaml -m stdout
         - mariadb
         - php
       state: present
-
-- name: Install RPM
-  hosts: dev
   tasks:
     - name: Install Group list RPM
       ansible.builtin.yum:
         name: "@RPM Development Tools"
         state: present
+        
+- name: Install RPM
+  hosts: dev
+
     - name: Update all packages
       ansible.builtin.yum:
         name: '*'
@@ -59,7 +60,7 @@ ansible-navigator run packages.yaml -m stdout
 ```
 
 
-45. Create repo.yml for configuring repository in all hosts
+4. Create repo.yml for configuring repository in all hosts
 
 ```
 ---
@@ -176,4 +177,31 @@ vim apache_role.yml
 ```
 
 `ansible-playbook apache_role.yml`
+
+`curl node1`
+
+7. Cofigure roles.yml run balancer and phpinfo roles
+
+
+UZUPEŁNIĆ
+
+
+8. Install Ansible Collection
+
+
+mkdir mycollection
+cd mycollection
+
+wget http:/// plik.tar.gz
+wget http:/// plik2.tar.gz
+
+
+ansible-galaxy collection install plik.tar.gz
+ansible-galaxy collection install plik.tar.gz -p . force
+
+ansible-galaxy collection install plik2.tar.gz
+ansible-galaxy collection install plik2.tar.gz -p . force
+
+
+
 
