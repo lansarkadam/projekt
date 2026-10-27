@@ -49,7 +49,7 @@ ansible-navigator run packages.yaml -m stdout
       ansible.builtin.yum:
         name: "@RPM Development Tools"
         state: present
-        
+
 - name: Install RPM
   hosts: dev
 
@@ -202,6 +202,50 @@ ansible-galaxy collection install plik.tar.gz -p . force
 ansible-galaxy collection install plik2.tar.gz
 ansible-galaxy collection install plik2.tar.gz -p . force
 
+
+9. Create a playbook webconent.yml and it should run on dev group
+
+
+```
+---
+ - name:
+   hosts: dev
+   tasks:
+     - name: create dir
+       file:
+         path: /devweb
+         state: directory
+         mode: '2775'
+         group: devops
+         setype: httpd_sys_content_t
+
+     - name: create symbolic link
+       file:
+         src: /devweb
+         dest: /var/www/html/devwqeb
+         state: link
+         setype: httpd_sys_content_t
+
+      - name: copy using inline
+        copy:
+          content: "Development"
+          dest: /devweb/index.html
+          setype: httpd_sys_content_t
+
+      - name: permit trafic
+        firewalld:
+          service: http
+          state: enabled
+          permanent: true
+          immediate: true
+
+```
+
+`ansible-playbook webcontent.yml`
+
+`curl node1/webdev/`
+
+Wynik "Development"
 
 
 
