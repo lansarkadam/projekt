@@ -4,4 +4,4 @@ ansible-navigator:
     pull:
       policy: missing
   playbook-artifact:
-     enable: fals
+     enable: falsĺĺp
