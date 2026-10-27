@@ -328,3 +328,70 @@ pw_manager : Immgr
 ```
 
 `ansible-vault view vault.yml --vault-password-file=secret.txt` - podejrzenie
+
+14. Rekey the variable file
+
+`ansible-vault rekey vault.yml`
+
+Vault password:
+New Vault password:
+Confirm New Vault password:
+Rekey successful
+
+15. Download user_list.yml and create users using variables
+
+`user_list.yml`
+```
+users:
+  - name: user1
+    description: developer
+  - name: user2
+    description: developer
+  - name: user3
+    description: manager
+```
+
+`vim users.yml`
+
+```
+---
+- name: add a user in dev and test
+  hosts: dev, test
+  vars_file:
+    - user_list.yml
+    - vault.yml
+  tasks:
+    - name: add group
+      group:
+        name: opsdev
+        state: present
+    - name: adding user
+      user:
+        name: "{{ item.name }}"
+        groups: opsdev
+        password: "{{ pw_developer | password_hash('sha512') }}"
+      when: item.description=='developer'
+      loop: "{{ users }}"
+
+- name: add a user in prod
+  hosts: prod
+  vars_file:
+    - user_list.yml
+    - vault.yml
+  tasks:
+    - name: add group
+      group:
+        name: opsmgr
+        state: present
+    - name: adding user
+      user:
+        name: "{{ item.name }}"
+        groups: opsdev
+        password: "{{ pw_manager | password_hash('sha512') }}"
+      when: item.description=='manager'
+      loop: "{{ users }}"
+```
+Dodane zostało też do ansible.cfg
+`vault_password_file = ./secret.txt` - ale nie wiem czy jest to wymagane
+
+`ansible-playbook users.yml`
