@@ -247,5 +247,84 @@ ansible-galaxy collection install plik2.tar.gz -p . force
 
 Wynik "Development"
 
+10. Collect hardware report using playbook
 
+ 
+`vim hwreport.yml`
 
+```
+---
+- name: create hwreport
+  hosts: all
+  tasks:
+    - name: download hwreport
+      get_url:
+        url: http://localfost/file/hwreport.empty
+        dest: /root/hwreport.txt
+
+```
+11. Replace the file /etc/issue on all managed nodes
+
+`vim issue.yml`
+
+```
+---
+- name: content in dev
+  hosts: dev
+  tasks:
+    - name: copy using inline content
+      copy:
+        content: Development
+        dest: /etc/issue
+
+- name: conetent in test
+  hosts: test
+  tasks:
+    - name: copy using in line content
+      copy:
+        content: Test
+        dest: /etc/issue
+
+- name: content in prod
+  hosts: prod
+  tasks:
+    - name: copy using in line content
+      copy:
+        content: Production
+        dest: /etc/issue
+
+```
+
+`ansible all -m command -a 'cat /etc/issue'`
+
+12. Download hosts.j2 and create /etc/myhosts
+
+vim hosts.j2
+
+```
+127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
+::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
+
+{% for host in griups['all']%}
+{{ hostvars[host].ansible_default_ipv4.address }} {{ hostvars[host].ansible_fqdn }} {{hostvars[host].ansible_hostname }}
+{% endfor %}
+```
+
+Plik już gotowy na egzaminie
+
+`ansible-playbook host.yml`
+
+13. Create vault.yml with encrypted variables
+
+`vim secret.txt` - hasło podane na egzaminie
+
+`ansible-vault create vault.yml --vault-password-file=secret.txt`
+
+wpisanie zwartości
+
+```
+pw_developer : Iamdev
+pw_manager : Immgr
+```
+
+`ansible-vault view vault.yml --vault-password-file=secret.txt` - podejrzenie
