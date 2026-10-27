@@ -1,18 +1,19 @@
-
+```
 git add plik.yml
 git commit -m "task1" plik.yml
-
+```
 
 1. Install and configure ansible
 
-sudo yum install ansible-core ansible-navigator -yum
+`sudo yum install ansible-core ansible-navigator -yum`
 
-mkdir -p roles/
-ansible-config init --disabled > ansible.config
+
+`mkdir -p roles/`
+`ansible-config init --disabled > ansible.config`
 lub
-ansible-config init --disabled > ansible-config-disabled.yml.
-ansible.cfg
+`ansible-config init --disabled > ansible-config-disabled.yml`
 
+```
 [defaults]
 inventory = /home/uzytkownik/ansible/inventory
 remote_user = uzytkownik
@@ -21,15 +22,32 @@ colection_path =
 
 [privilege_escalation]
 become = True
+```
 
+`vim inventory`
+```
+[dev]
+node1
 
-vim inventory
+[test]
+node2
+
+[prod]
+node3
+node4
+
+[balancers]
+node5
+
+[webservers:children]
+prod
+```
 
 3. Install Software Packages
 
 RPM Developmnet, mariadb, php
 
-ansible-navigator run packages.yaml -m stdout
+`ansible-navigator run packages.yaml -m stdout`
 
 ```
 ---
