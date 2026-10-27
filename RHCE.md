@@ -418,3 +418,22 @@ Dodane zostało też do ansible.cfg
 
 Weryfikacja na wszystkich hostach
 `ansible all -m command -a "crontab -lu student"`
+
+17. Configure Timesync Role
+
+`vim timesync.yml`
+
+ ```
+ ---
+- name: Manage timesync
+  hosts: all
+  vars:
+    timesync_ntp_servers:
+      - hostname: classroom.example.com
+        iburst: true
+  roles:
+    - rhel-system-roles.timesync
+ ```
+ansible-playbook timesync.yml
+
+18. 
