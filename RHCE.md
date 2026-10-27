@@ -91,4 +91,89 @@ ansible-navigator run packages.yaml -m stdout
         enabled: yes
 ```
 
-5. 
+5. Create directory 'roles' under /home/ansible/student and download roles
+
+Role:
+ - balancer.tar.gz
+- phpinfo.tar.gz
+
+
+`mkdir roles`
+`cd roles`
+
+
+```
+---
+- src: http://localhost/files/balancer.tar.gz
+  name: balancer
+- src: http://localhost/files/phpinfo.tar.gz
+  name: phpinfo
+```
+
+`ansible-galaxy -r requirment.yml -p .`
+
+6. Create offline role named apache under roles directory
+
+`cd roles/`
+
+`ansible-galaxy init apache`
+
+```vim apache/templates/template.j2```
+
+Zawartość: 
+
+```
+Welcome to {{ ansible_fqdn }} on {{ ansible_default_ipv4_address }}
+```
+
+
+`vim apache/tasks/main.yml`
+
+```
+---
+# tasks file for apache
+ - name: Install apache
+   dnf:
+     name: httpd
+     state: latest
+
+ - name: Start service httpd
+   service:
+     name: httpd
+     state: started
+     enabled: yes
+
+ - name: start service firewalld
+   service:
+     name: firewalld
+     state: restarted
+     enable: yes
+
+ - name: add http service in firewalld
+   firewalld:
+     service: http
+     state: enabled
+     permanent: yes
+     immediate: yes
+
+ - name: copy the template.j2
+   template:
+     src: template.j2
+     dest: /var/www/html/index.html
+
+```
+
+cd /home/student/ansible/
+
+vim apache_role.yml
+
+```
+---
+- name: use apache role
+  hosts: dev
+  roles:
+    - apache
+```
+
+`ansible-playbook apache_role.yml`
+
