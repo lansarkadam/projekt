@@ -1,0 +1,23 @@
+1. Install and configure ansible
+
+sudo yum install ansible-core ansible-navigator -yum
+
+mkdir -p roles/
+ansible-config init --disabled > ansible.config
+lub
+ansible-config init --disabled > ansible-config-disabled.yml.
+ansible.cfg
+
+[defaults]
+inventory = /home/uzytkownik/ansible/inventory
+remote_user = uzytkownik
+roles_path = 
+colection_path = 
+
+[privilege_escalation]
+become = True
+
+
+vim inventory
+
+ 
