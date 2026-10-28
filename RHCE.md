@@ -454,4 +454,41 @@ Weryfikacja na wszystkich hostach
  ```
 ansible-playbook timesync.yml
 
-18. 
+18. Create and use logical volume
+
+`ansible all -m command -a "lsblk"`
+
+```
+---
+- name: create lvm
+  hosts: all
+  tasks:
+    - name: if device is not present
+      debug:
+        msg: "VG is not present"
+      when: ansible_lvm.vgs.research is not defined
+
+    - name: when vg is present
+      lvol:
+        vg: research
+        lv: data
+        size: 1500m
+      when: ansible_lvm.vgs.research.free_g>1.6
+
+    - name: when required size is not present
+      debug:
+        msg: "required size is not present"
+      when: ansible_lvm.vgs.research.free_g<1.6
+
+    - name: if not present
+      lvol:
+        vg: researche
+        lv: data
+        size: 800m
+      when: ansible_lvm.vgs.research.free_g<1.6
+
+    - name: format lvm
+      filesystem:
+        fstype: ext4
+        dev: /dev/research/data
+```
