@@ -457,6 +457,8 @@ ansible-playbook timesync.yml
 18. Create and use logical volume
 
 `ansible all -m command -a "lsblk"`
+`ansible localhost -m setup -a 'filter=ansible_lvm*' -K`
+
 
 ```
 ---
@@ -482,7 +484,7 @@ ansible-playbook timesync.yml
 
     - name: if not present
       lvol:
-        vg: researche
+        vg: research
         lv: data
         size: 800m
       when: ansible_lvm.vgs.research.free_g<1.6
