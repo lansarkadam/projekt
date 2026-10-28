@@ -114,7 +114,7 @@ RPM Developmnet, mariadb, php
 
 Role:
  - balancer.tar.gz
-- phpinfo.tar.gz
+ - phpinfo.tar.gz
 
 
 `mkdir roles`
@@ -129,7 +129,8 @@ Role:
   name: phpinfo
 ```
 
-`ansible-galaxy -r requirment.yml -p .`
+Wskazanie do jakiego katalogu ma zostać zainstalowana rola
+`ansible-galaxy role install -r requirment.yml -p roles/`
 
 6. Create offline role named apache under roles directory
 
@@ -151,34 +152,34 @@ Welcome to {{ ansible_fqdn }} on {{ ansible_default_ipv4_address }}
 ```
 ---
 # tasks file for apache
- - name: Install apache
-   dnf:
-     name: httpd
-     state: latest
+- name: Install apache
+  dnf:
+    name: httpd
+    state: present
 
- - name: Start service httpd
-   service:
-     name: httpd
-     state: started
-     enabled: yes
+- name: Start service httpd
+  service:
+    name: httpd
+    state: started
+    enabled: yes
 
- - name: start service firewalld
-   service:
-     name: firewalld
-     state: restarted
-     enable: yes
+- name: Start service firewalld
+  service:
+    name: firewalld
+    state: started
+    enabled: yes
 
- - name: add http service in firewalld
-   firewalld:
-     service: http
-     state: enabled
-     permanent: yes
-     immediate: yes
+- name: Add http to firewalld
+  ansible.posix.firewalld:
+    service: http
+    state: enabled
+    permanent: yes
+    immediate: yes
 
- - name: copy the template.j2
-   template:
-     src: template.j2
-     dest: /var/www/html/index.html
+- name: Copy template.j2
+  template:
+    src: template.j2
+    dest: /var/www/html/index.html
 
 ```
 
