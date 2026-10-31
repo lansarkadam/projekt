@@ -51,29 +51,29 @@ RPM Developmnet, mariadb, php
 
 ```
 ---
-- name: Install Packages
-  hosts: dev,test,prod
+---
+- name: installation
+  hosts: dev, test
   tasks:
-    - name: Install MariaDb i PHP
-      ansible.builtin.yum:
-        name: "{{ packages }}"
-      vars:
-        packages:
-        - mariadb
-        - php
-      state: present
-  tasks:
-    - name: Install Group list RPM
-      ansible.builtin.yum:
-        name: "@RPM Development Tools"
+    - name: install vsftpd, mariadb-server
+      dnf:
+        name:
+          - vsftpd
+          - mariadb-server
         state: present
-
-- name: Install RPM
+- name: install RPM
+  hosts: prod
+  tasks:
+    - name: install Rpm Development
+      dnf:
+        name: '@RPM Development Tools'
+        state: present
+- name: Update all
   hosts: dev
-
-    - name: Update all packages
-      ansible.builtin.yum:
-        name: '*'
+  tasks:
+    - name: Update
+      dnf:
+        name: "*"
         state: latest
 ```
 
