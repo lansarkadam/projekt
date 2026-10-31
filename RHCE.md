@@ -227,36 +227,36 @@ ansible-galaxy collection install plik2.tar.gz -p . force
 
 ```
 ---
- - name:
-   hosts: dev
-   tasks:
-     - name: create dir
-       file:
-         path: /devweb
-         state: directory
-         mode: '2775'
-         group: devops
-         setype: httpd_sys_content_t
+- name: create web content
+  hosts: dev
+  tasks:
+    - name: create dir
+      file:
+        path: /devweb
+        state: directory
+        mode: '2775'
+        group: devops
+        setype: httpd_sys_content_t
 
-     - name: create symbolic link
-       file:
-         src: /devweb
-         dest: /var/www/html/devwqeb
-         state: link
-         setype: httpd_sys_content_t
+    - name: create symbolic link
+      file:
+        src: /devweb
+        dest: /var/www/html/devweb
+        state: link
+        setype: httpd_sys_content_t
 
-      - name: copy using inline
-        copy:
-          content: "Development"
-          dest: /devweb/index.html
-          setype: httpd_sys_content_t
+    - name: copy using inline
+      copy:
+        content: 'Development'
+        dest: /devweb/index.html
+        setype: httpd_sys_content_t
 
-      - name: permit trafic
-        firewalld:
-          service: http
-          state: enabled
-          permanent: true
-          immediate: true
+    - name: permit traffic
+      firewalld:
+        service: http
+        state: enabled
+        permanent: true
+        immediate: true
 
 ```
 
