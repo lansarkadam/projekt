@@ -465,7 +465,7 @@ ansible-playbook timesync.yml
 - name: create lvm
   hosts: all
   tasks:
-    - name: if device is not present
+    - name: if device not present
       debug:
         msg: "VG is not present"
       when: ansible_lvm.vgs.research is not defined
@@ -475,19 +475,21 @@ ansible-playbook timesync.yml
         vg: research
         lv: data
         size: 1500m
-      when: ansible_lvm.vgs.research.free_g>1.6
+      when:
+        - ansible_lvm.vgs.research is defined
+        - ansible_lvm.vgs.research.free_g | float > 1.6
 
     - name: when required size is not present
       debug:
         msg: "required size is not present"
-      when: ansible_lvm.vgs.research.free_g<1.6
+      when: ansible_lvm.vgs.research.free_g | float < 1.6
 
     - name: if not present
       lvol:
         vg: research
         lv: data
         size: 800m
-      when: ansible_lvm.vgs.research.free_g<1.6
+      when: ansible_lvm.vgs.research.free_g | float < 1.6
 
     - name: format lvm
       filesystem:
