@@ -273,12 +273,12 @@ Wynik "Development"
 
 ```
 ---
-- name: create hwreport
+- name: download hwreport
   hosts: all
   tasks:
-    - name: download hwreport
-      get_url:
-        url: http://localfost/file/hwreport.empty
+    - name: download report to root destination
+      ansible.builtin.get_url:
+        url: http://localhost/hwreport.empty
         dest: /root/hwreport.txt
 
 ```
@@ -290,7 +290,7 @@ Wynik "Development"
 ---
 - name: content in dev
   hosts: dev
-  tasks:
+  tasks: 
     - name: copy using inline content
       copy:
         content: Development
@@ -324,9 +324,9 @@ vim hosts.j2
 127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
 ::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
 
-{% for host in griups['all']%}
-{{ hostvars[host].ansible_default_ipv4.address }} {{ hostvars[host].ansible_fqdn }} {{hostvars[host].ansible_hostname }}
-{% endfor %}
+{% for host in groups ['all']%}
+{{ hostvars[host].ansible_default_ipv4.address }} {{ hostvars[hosts].ansible_fqdn }} {{ hostvars[host].ansible_hostname }}
+{% endfor%}
 ```
 
 Plik już gotowy na egzaminie
@@ -346,7 +346,7 @@ pw_developer : Iamdev
 pw_manager : Immgr
 ```
 
-`ansible-vault view vault.yml --vault-password-file=secret.txt` - podejrzenie
+`an sible-vault view vault.yml --vault-password-file=secret.txt` - podejrzenie
 
 14. Rekey the variable file
 
@@ -374,38 +374,37 @@ users:
 
 ```
 ---
-- name: add a user in dev and test
+- name: add user dev and test
   hosts: dev, test
-  vars_file:
+  vars_files:
     - user_list.yml
     - vault.yml
   tasks:
-    - name: add group
-      group:
+    - name: add group opsdev
+      ansible.builtin.group:
         name: opsdev
         state: present
-    - name: adding user
-      user:
+    - name: add user
+      ansible.builtin.user:
         name: "{{ item.name }}"
-        groups: opsdev
+        group: opsdev
         password: "{{ pw_developer | password_hash('sha512') }}"
       when: item.description=='developer'
       loop: "{{ users }}"
-
-- name: add a user in prod
+- name: add user prod
   hosts: prod
-  vars_file:
+  vars_files:
     - user_list.yml
     - vault.yml
   tasks:
-    - name: add group
-      group:
+    - name: add group opsdev
+      ansible.builtin.group:
         name: opsmgr
         state: present
-    - name: adding user
-      user:
+    - name: add user
+      ansible.builtin.user:
         name: "{{ item.name }}"
-        groups: opsdev
+        group: opsdev
         password: "{{ pw_manager | password_hash('sha512') }}"
       when: item.description=='manager'
       loop: "{{ users }}"
