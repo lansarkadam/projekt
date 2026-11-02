@@ -1,18 +1,19 @@
-
+```
 git add plik.yml
 git commit -m "task1" plik.yml
-
+```
 
 1. Install and configure ansible
 
-sudo yum install ansible-core ansible-navigator -yum
+`sudo yum install ansible-core ansible-navigator -yum`
 
-mkdir -p roles/
-ansible-config init --disabled > ansible.config
+
+`mkdir -p roles/`
+`ansible-config init --disabled > ansible.config`
 lub
-ansible-config init --disabled > ansible-config-disabled.yml.
-ansible.cfg
+`ansible-config init --disabled > ansible-config-disabled.yml`
 
+```
 [defaults]
 inventory = /home/uzytkownik/ansible/inventory
 remote_user = uzytkownik
@@ -21,41 +22,58 @@ colection_path =
 
 [privilege_escalation]
 become = True
+```
 
+`vim inventory`
+```
+[dev]
+node1
 
-vim inventory
+[test]
+node2
+
+[prod]
+node3
+node4
+
+[balancers]
+node5
+
+[webservers:children]
+prod
+```
 
 3. Install Software Packages
 
 RPM Developmnet, mariadb, php
 
-ansible-navigator run packages.yaml -m stdout
+`ansible-navigator run packages.yaml -m stdout`
 
 ```
 ---
-- name: Install Packages
-  hosts: dev,test,prod
+---
+- name: installation
+  hosts: dev, test
   tasks:
-    - name: Install MariaDb i PHP
-      ansible.builtin.yum:
-        name: "{{ packages }}"
-      vars:
-        packages:
-        - mariadb
-        - php
-      state: present
-  tasks:
-    - name: Install Group list RPM
-      ansible.builtin.yum:
-        name: "@RPM Development Tools"
+    - name: install vsftpd, mariadb-server
+      dnf:
+        name:
+          - vsftpd
+          - mariadb-server
         state: present
-
-- name: Install RPM
+- name: install RPM
+  hosts: prod
+  tasks:
+    - name: install Rpm Development
+      dnf:
+        name: '@RPM Development Tools'
+        state: present
+- name: Update all
   hosts: dev
-
-    - name: Update all packages
-      ansible.builtin.yum:
-        name: '*'
+  tasks:
+    - name: Update
+      dnf:
+        name: "*"
         state: latest
 ```
 
@@ -96,7 +114,7 @@ ansible-navigator run packages.yaml -m stdout
 
 Role:
  - balancer.tar.gz
-- phpinfo.tar.gz
+ - phpinfo.tar.gz
 
 
 `mkdir roles`
@@ -111,7 +129,8 @@ Role:
   name: phpinfo
 ```
 
-`ansible-galaxy -r requirment.yml -p .`
+Wskazanie do jakiego katalogu ma zostać zainstalowana rola
+`ansible-galaxy role install -r requirment.yml -p roles/`
 
 6. Create offline role named apache under roles directory
 
@@ -133,34 +152,34 @@ Welcome to {{ ansible_fqdn }} on {{ ansible_default_ipv4_address }}
 ```
 ---
 # tasks file for apache
- - name: Install apache
-   dnf:
-     name: httpd
-     state: latest
+- name: Install apache
+  dnf:
+    name: httpd
+    state: present
 
- - name: Start service httpd
-   service:
-     name: httpd
-     state: started
-     enabled: yes
+- name: Start service httpd
+  service:
+    name: httpd
+    state: started
+    enabled: yes
 
- - name: start service firewalld
-   service:
-     name: firewalld
-     state: restarted
-     enable: yes
+- name: Start service firewalld
+  service:
+    name: firewalld
+    state: started
+    enabled: yes
 
- - name: add http service in firewalld
-   firewalld:
-     service: http
-     state: enabled
-     permanent: yes
-     immediate: yes
+- name: Add http to firewalld
+  ansible.posix.firewalld:
+    service: http
+    state: enabled
+    permanent: yes
+    immediate: yes
 
- - name: copy the template.j2
-   template:
-     src: template.j2
-     dest: /var/www/html/index.html
+- name: Copy template.j2
+  template:
+    src: template.j2
+    dest: /var/www/html/index.html
 
 ```
 
@@ -208,36 +227,36 @@ ansible-galaxy collection install plik2.tar.gz -p . force
 
 ```
 ---
- - name:
-   hosts: dev
-   tasks:
-     - name: create dir
-       file:
-         path: /devweb
-         state: directory
-         mode: '2775'
-         group: devops
-         setype: httpd_sys_content_t
+- name: create web content
+  hosts: dev
+  tasks:
+    - name: create dir
+      file:
+        path: /devweb
+        state: directory
+        mode: '2775'
+        group: devops
+        setype: httpd_sys_content_t
 
-     - name: create symbolic link
-       file:
-         src: /devweb
-         dest: /var/www/html/devwqeb
-         state: link
-         setype: httpd_sys_content_t
+    - name: create symbolic link
+      file:
+        src: /devweb
+        dest: /var/www/html/devweb
+        state: link
+        setype: httpd_sys_content_t
 
-      - name: copy using inline
-        copy:
-          content: "Development"
-          dest: /devweb/index.html
-          setype: httpd_sys_content_t
+    - name: copy using inline
+      copy:
+        content: 'Development'
+        dest: /devweb/index.html
+        setype: httpd_sys_content_t
 
-      - name: permit trafic
-        firewalld:
-          service: http
-          state: enabled
-          permanent: true
-          immediate: true
+    - name: permit traffic
+      firewalld:
+        service: http
+        state: enabled
+        permanent: true
+        immediate: true
 
 ```
 
@@ -254,12 +273,12 @@ Wynik "Development"
 
 ```
 ---
-- name: create hwreport
+- name: download hwreport
   hosts: all
   tasks:
-    - name: download hwreport
-      get_url:
-        url: http://localfost/file/hwreport.empty
+    - name: download report to root destination
+      ansible.builtin.get_url:
+        url: http://localhost/hwreport.empty
         dest: /root/hwreport.txt
 
 ```
@@ -271,7 +290,7 @@ Wynik "Development"
 ---
 - name: content in dev
   hosts: dev
-  tasks:
+  tasks: 
     - name: copy using inline content
       copy:
         content: Development
@@ -305,9 +324,9 @@ vim hosts.j2
 127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
 ::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
 
-{% for host in griups['all']%}
-{{ hostvars[host].ansible_default_ipv4.address }} {{ hostvars[host].ansible_fqdn }} {{hostvars[host].ansible_hostname }}
-{% endfor %}
+{% for host in groups ['all']%}
+{{ hostvars[host].ansible_default_ipv4.address }} {{ hostvars[hosts].ansible_fqdn }} {{ hostvars[host].ansible_hostname }}
+{% endfor%}
 ```
 
 Plik już gotowy na egzaminie
@@ -327,7 +346,7 @@ pw_developer : Iamdev
 pw_manager : Immgr
 ```
 
-`ansible-vault view vault.yml --vault-password-file=secret.txt` - podejrzenie
+`an sible-vault view vault.yml --vault-password-file=secret.txt` - podejrzenie
 
 14. Rekey the variable file
 
@@ -355,38 +374,37 @@ users:
 
 ```
 ---
-- name: add a user in dev and test
+- name: add user dev and test
   hosts: dev, test
-  vars_file:
+  vars_files:
     - user_list.yml
     - vault.yml
   tasks:
-    - name: add group
-      group:
+    - name: add group opsdev
+      ansible.builtin.group:
         name: opsdev
         state: present
-    - name: adding user
-      user:
+    - name: add user
+      ansible.builtin.user:
         name: "{{ item.name }}"
-        groups: opsdev
+        group: opsdev
         password: "{{ pw_developer | password_hash('sha512') }}"
       when: item.description=='developer'
       loop: "{{ users }}"
-
-- name: add a user in prod
+- name: add user prod
   hosts: prod
-  vars_file:
+  vars_files:
     - user_list.yml
     - vault.yml
   tasks:
-    - name: add group
-      group:
+    - name: add group opsdev
+      ansible.builtin.group:
         name: opsmgr
         state: present
-    - name: adding user
-      user:
+    - name: add user
+      ansible.builtin.user:
         name: "{{ item.name }}"
-        groups: opsdev
+        group: opsdev
         password: "{{ pw_manager | password_hash('sha512') }}"
       when: item.description=='manager'
       loop: "{{ users }}"
@@ -436,4 +454,49 @@ Weryfikacja na wszystkich hostach
  ```
 ansible-playbook timesync.yml
 
+<<<<<<< HEAD
 18. 
+=======
+18. Create and use logical volume
+
+`ansible all -m command -a "lsblk"`
+`ansible localhost -m setup -a 'filter=ansible_lvm*' -K`
+
+
+```
+---
+- name: create lvm
+  hosts: all
+  tasks:
+    - name: if device not present
+      debug:
+        msg: "VG is not present"
+      when: ansible_lvm.vgs.research is not defined
+
+    - name: when vg is present
+      lvol:
+        vg: research
+        lv: data
+        size: 1500m
+      when:
+        - ansible_lvm.vgs.research is defined
+        - ansible_lvm.vgs.research.free_g | float > 1.6
+
+    - name: when required size is not present
+      debug:
+        msg: "required size is not present"
+      when: ansible_lvm.vgs.research.free_g | float < 1.6
+
+    - name: if not present
+      lvol:
+        vg: research
+        lv: data
+        size: 800m
+      when: ansible_lvm.vgs.research.free_g | float < 1.6
+
+    - name: format lvm
+      filesystem:
+        fstype: ext4
+        dev: /dev/research/data
+```
+>>>>>>> b25ba37cd85ed28b06652c5661de394e06d6e836
