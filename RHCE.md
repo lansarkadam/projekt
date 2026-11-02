@@ -20,7 +20,7 @@ roles_path =
 colection_path = 
 
 [privilege_escalation]
-#become = True
+become = True
 
 
 vim inventory
