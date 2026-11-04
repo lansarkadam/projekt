@@ -21,7 +21,11 @@ roles_path =
 colection_path = 
 
 [privilege_escalation]
+<<<<<<< HEAD
 become = True
+=======
+###become = True
+>>>>>>> 2f30fffe109a0e2d2b5070a384485ec1a4ac9979
 ```
 
 `vim inventory`
