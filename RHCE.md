@@ -3,7 +3,7 @@ git add plik.yml
 git commit -m "task1" plik.yml
 ```
 
-1. Install and configure ansible
+1. Install and configure ansible on control node
 
 `sudo yum install ansible-core ansible-navigator -yum`
 
@@ -21,7 +21,7 @@ roles_path =
 colection_path = 
 
 [privilege_escalation]
-#become = True
+become = True
 ```
 
 `vim inventory`
@@ -43,42 +43,8 @@ node5
 prod
 ```
 
-3. Install Software Packages
 
-RPM Developmnet, mariadb, php
-
-`ansible-navigator run packages.yaml -m stdout`
-
-```
----
----
-- name: installation
-  hosts: dev, test
-  tasks:
-    - name: install vsftpd, mariadb-server
-      dnf:
-        name:
-          - vsftpd
-          - mariadb-server
-        state: present
-- name: install RPM
-  hosts: prod
-  tasks:
-    - name: install Rpm Development
-      dnf:
-        name: '@RPM Development Tools'
-        state: present
-- name: Update all
-  hosts: dev
-  tasks:
-    - name: Update
-      dnf:
-        name: "*"
-        state: latest
-```
-
-
-4. Create repo.yml for configuring repository in all hosts
+2. Create repo.yml for configuring repository in all hosts
 
 ```
 ---
@@ -110,7 +76,8 @@ RPM Developmnet, mariadb, php
         enabled: yes
 ```
 
-5. Create directory 'roles' under /home/ansible/student and download roles
+
+3. Create directory 'roles' under /home/ansible/student and download roles
 
 Role:
  - balancer.tar.gz
@@ -132,7 +99,7 @@ Role:
 Wskazanie do jakiego katalogu ma zostać zainstalowana rola
 `ansible-galaxy role install -r requirment.yml -p roles/`
 
-6. Create offline role named apache under roles directory
+4. Create offline role named apache under roles directory
 
 `cd roles/`
 
@@ -199,13 +166,14 @@ vim apache_role.yml
 
 `curl node1`
 
-7. Cofigure roles.yml run balancer and phpinfo roles
+
+5. Cofigure roles.yml run balancer and phpinfo roles
 
 
 UZUPEŁNIĆ
 
 
-8. Install Ansible Collection
+6. Install Ansible Collection
 
 
 mkdir mycollection
@@ -222,7 +190,43 @@ ansible-galaxy collection install plik2.tar.gz
 ansible-galaxy collection install plik2.tar.gz -p . force
 
 
-9. Create a playbook webconent.yml and it should run on dev group
+
+7. Install Packages in mutpiple groups  - Software Packages
+
+RPM Developmnet, mariadb, php
+
+`ansible-navigator run packages.yaml -m stdout`
+
+```
+---
+---
+- name: installation
+  hosts: dev, test
+  tasks:
+    - name: install vsftpd, mariadb-server
+      dnf:
+        name:
+          - vsftpd
+          - mariadb-server
+        state: present
+- name: install RPM
+  hosts: prod
+  tasks:
+    - name: install Rpm Development
+      dnf:
+        name: '@RPM Development Tools'
+        state: present
+- name: Update all
+  hosts: dev
+  tasks:
+    - name: Update
+      dnf:
+        name: "*"
+        state: latest
+```
+
+
+8. Create a playbook webconent.yml and it should run on dev group
 
 
 ```
@@ -266,7 +270,7 @@ ansible-galaxy collection install plik2.tar.gz -p . force
 
 Wynik "Development"
 
-10. Collect hardware report using playbook
+9. Collect hardware report using playbook
 
  
 `vim hwreport.yml`
@@ -282,7 +286,7 @@ Wynik "Development"
         dest: /root/hwreport.txt
 
 ```
-11. Replace the file /etc/issue on all managed nodes
+10. Replace the file /etc/issue on all managed nodes
 
 `vim issue.yml`
 
@@ -316,7 +320,7 @@ Wynik "Development"
 
 `ansible all -m command -a 'cat /etc/issue'`
 
-12. Download hosts.j2 and create /etc/myhosts
+11. Download hosts.j2 and create /etc/myhosts
 
 vim hosts.j2
 
@@ -333,7 +337,7 @@ Plik już gotowy na egzaminie
 
 `ansible-playbook host.yml`
 
-13. Create vault.yml with encrypted variables
+12. Create vault.yml with encrypted variables
 
 `vim secret.txt` - hasło podane na egzaminie
 
@@ -348,7 +352,7 @@ pw_manager : Immgr
 
 `an sible-vault view vault.yml --vault-password-file=secret.txt` - podejrzenie
 
-14. Rekey the variable file
+13. Rekey the variable file
 
 `ansible-vault rekey vault.yml`
 
@@ -357,7 +361,7 @@ New Vault password:
 Confirm New Vault password:
 Rekey successful
 
-15. Download user_list.yml and create users using variables
+14. Download user_list.yml and create users using variables
 
 `user_list.yml`
 ```
@@ -414,7 +418,7 @@ Dodane zostało też do ansible.cfg
 
 `ansible-playbook users.yml`
 
-16. Create a cronjob for user student
+15. Create a cronjob for user student
 
 `vim crontab.yml`
 
@@ -437,7 +441,7 @@ Dodane zostało też do ansible.cfg
 Weryfikacja na wszystkich hostach
 `ansible all -m command -a "crontab -lu student"`
 
-17. Configure Timesync Role
+16. Configure Timesync Role
 
 `vim timesync.yml`
 
@@ -454,10 +458,7 @@ Weryfikacja na wszystkich hostach
  ```
 ansible-playbook timesync.yml
 
-<<<<<<< HEAD
-18. 
-=======
-18. Create and use logical volume
+17. Create and use logical volume
 
 `ansible all -m command -a "lsblk"`
 `ansible localhost -m setup -a 'filter=ansible_lvm*' -K`
@@ -499,4 +500,3 @@ ansible-playbook timesync.yml
         fstype: ext4
         dev: /dev/research/data
 ```
->>>>>>> b25ba37cd85ed28b06652c5661de394e06d6e836
