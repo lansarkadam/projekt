@@ -9,6 +9,8 @@ git commit -m "task1" plik.yml
 
 
 `mkdir -p roles/`
+`mkdir -p mycollection/`
+
 `ansible-config init --disabled > ansible.config`
 lub
 `ansible-config init --disabled > ansible-config-disabled.yml`
