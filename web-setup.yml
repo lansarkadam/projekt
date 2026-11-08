@@ -1,0 +1,36 @@
+---
+- name: Packages and Service Management
+  hosts: webservers
+  tasks:
+    - name: Install web Packages
+      ansible.builtin.dnf:
+        name:
+          - httpd
+          - mod_ssl
+        state: present
+
+    - name: Starte and Enable httpd
+      ansible.builtin.service:
+        name: httpd
+        state: started
+        enabled: true
+
+    - name: Open firewalld ports
+      ansible.posix.firewalld:
+        service: "{{ item }}"
+        permanent: true
+        immediate: true
+        state: enabled
+      loop:
+        - http
+        - https
+
+    - name: Create index page
+      ansible.builtin.copy:
+        content: "Hello from {{ inventory_hostname }}\n"
+        dest: /var/www/html/index.html
+        owner: apache
+        group: apache
+        mode: '0644'
+
+      

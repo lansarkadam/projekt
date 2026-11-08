@@ -1,5 +1,9 @@
 ansible-navigator:
+  playbook-artifact:
+    enable: false
   execution-environment:
     enabled: true
     image: registry.redhat.io/ansible-automation-platform-26/ee-supported-rhel9:latest
     container-engine: podman
+    pull:
+      policy: missing

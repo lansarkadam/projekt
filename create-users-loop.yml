@@ -1,0 +1,41 @@
+---
+- name: Use loops in playbooks
+  hosts: all
+  vars:
+    users:
+      - name: alice
+        uid: 2001
+      - name: bob
+        uid: 2002
+      - name: charlie
+        uid: 2003
+    app_dirs:
+      - path: /opt/app1
+        mode: '0755'
+      - path: /opt/app2
+        mode: '0755'
+      - path: /opt/app3
+        mode: '0755'
+    packages:
+      - tree
+      - wget
+
+  tasks:
+    - name: Create user
+      ansible.builtin.user:
+        name: "{{ item.name }}"
+        uid: "{{ item.uid }}"
+        state: present
+      loop: "{{ users }}"
+
+    - name: Create app directory
+      ansible.builtin.file:
+        path: "{{ item.path }}"
+        mode: "{{ item.mode }}"
+        state: directory
+      loop: "{{ app_dirs }}"
+
+    - name: Install packages
+      ansible.builtin.dnf:
+        name: "{{ packages }}"
+        state: present

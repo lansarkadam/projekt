@@ -1,0 +1,33 @@
+---
+- name: Conditional package installation
+  hosts: all
+  tasks:
+    - name: Install HTTPD on webservers
+      ansible.builtin.dnf:
+        name: httpd
+        state: present
+      when: "'webservers' in group_names"
+
+    - name: Install MariaDB-Server on dbservers
+      ansible.builtin.dnf:
+        name: mariadb-server
+        state: present
+      when: "'dbservers' in group_names"
+
+    - name: Check if chrony is installed
+      ansible.builtin.command: "rpm -q chrony"
+      register: chrony_check
+      ignore_errors: true
+      changed_when: false
+
+    - name: Install chrony is missing
+      ansible.builtin.dnf:
+        name: chrony
+        state: present
+      when: chrony_check.rc !=0
+
+    - name: Restart chronyd on RH 10
+      ansible.builtin.service:
+        name: chronyd
+        state: restarted
+      when: ansible_distribution_major_version == "10"

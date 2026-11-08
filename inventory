@@ -1,15 +1,18 @@
-[dev]
+[webservers]
 node1
-
-[test]
-node2
-
-[prod]
 node3
+
+[dbservers]
+node2
+node3
+
+[production]
 node4
 
-[balancers]
+[balancer]
 node5
 
-[webservers:children]
-prod
+[lab:children]
+webservers
+dbservers
+

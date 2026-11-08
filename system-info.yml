@@ -1,0 +1,30 @@
+---
+- name: Use variables, register, fact
+  hosts: all
+  vars:
+    company_name: "SOFT.IT"
+  tasks:
+    - name: Set MOTD
+      ansible.builtin.copy:
+        content: "Welcome to {{ company_name }} - {{ inventory_hostname }}\n"
+        dest: /etc/motd
+
+    - name: Display system facts
+      ansible.builtin.debug:
+        msg: |
+          Hostname: {{ ansible_fqdn }},
+          IP Address: {{ ansible_default_ipv4.address }},
+          Total_memory: {{ ansible_memtotal_mb }} MB,
+          OS Family: {{ ansible_os_family }}
+
+    - name: Seve system info to file
+      ansible.builtin.copy:
+        content: |
+          Hostname: {{ ansible_fqdn }},
+          IP Address: {{ ansible_default_ipv4.address }},
+          Total Memory: {{ ansible_memtotal_mb }} MB,
+          OS Family: {{ ansible_os_family }}
+        dest: /root/system-info.txt
+        mode: '0644'
+
+
