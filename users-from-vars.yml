@@ -1,0 +1,29 @@
+---
+- name: Create user from variable file
+  hosts: all
+  vars_files:
+    - vars/users.yml
+  tasks:
+    - name: Ensure groups is exist
+      ansible.builtin.group:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - developers
+        - admins
+
+    - name: Create user
+      ansible.builtin.user:
+        name: "{{ item.name }}"
+        state: present
+        groups: "{{ item.groups }}"
+        append: true
+      loop: "{{ user_list }}"
+
+    - name: Grant sudo to admins
+      ansible.builtin.copy:
+        content: "{{ item.name }} ALL=(ALL) NOPASSWD:ALL\n"
+        dest: "/etc/sudoers.d/{{ item.name }}"
+        mode: '0440'
+        validate: '/usr/sbin/visudo -csf %s'
+      loop: "{{ user_list | selectattr('admin') | list }}"

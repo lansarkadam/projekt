@@ -1,0 +1,36 @@
+---
+- name: Use handlers for triggered actions
+  hosts: webservers
+  tasks:
+    - name: Install htppd
+      ansible.builtin.dnf:
+        name: httpd
+        state: present
+
+    - name: Deploy httpd config
+      ansible.builtin.lineinfile:
+        path: /etc/httpd/conf/httpd.conf
+        regexp: '^ServerAdmin'
+        line: 'ServerAdmin admin@lab.local'
+      notify: Restart HTTP
+
+    - name: Ensure httpd is started and enable
+      ansible.builtin.service:
+        name: httpd
+        state: started
+        enabled: true
+
+    - name: Open firewall for httpd
+      ansible.posix.firewalld:
+        service: http
+        state: enabled
+        permanent: true
+        immediate: true
+
+  handlers:
+    - name: Restart HTTP
+      ansible.builtin.service:
+        name: httpd
+        state: restarted
+
+

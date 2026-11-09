@@ -1,0 +1,141 @@
+community.aws.accessanalyzer_validate_policy_info   Performs validation of IAM policies                                                                               
+community.aws.acm_certificate                       Upload and delete certificates in the AWS Certificate Manager service                                             
+community.aws.acm_certificate_info                  Retrieve certificate information from AWS Certificate Manager service                                             
+community.aws.api_gateway                           Manage AWS API Gateway APIs                                                                                       
+community.aws.api_gateway_domain                    Manage AWS API Gateway custom domains                                                                             
+community.aws.api_gateway_info                      Gather information about ec2 instances in AWS                                                                     
+community.aws.application_autoscaling_policy        Manage Application Auto Scaling Scaling Policies                                                                  
+community.aws.autoscaling_complete_lifecycle_action Completes the lifecycle action of an instance                                                                     
+community.aws.autoscaling_launch_config             Create or delete AWS Autoscaling Launch Configurations                                                            
+community.aws.autoscaling_launch_config_find        Find AWS Autoscaling Launch Configurations                                                                        
+community.aws.autoscaling_launch_config_info        Gather information about AWS Autoscaling Launch Configurations                                                    
+community.aws.autoscaling_lifecycle_hook            Create, delete or update AWS ASG Lifecycle Hooks                                                                  
+community.aws.autoscaling_policy                    Create or delete AWS scaling policies for Autoscaling groups                                                      
+community.aws.autoscaling_scheduled_action          Create, modify and delete ASG scheduled scaling actions                                                           
+community.aws.batch_compute_environment             Manage AWS Batch Compute Environments                                                                             
+community.aws.batch_job_definition                  Manage AWS Batch Job Definitions                                                                                  
+community.aws.batch_job_queue                       Manage AWS Batch Job Queues                                                                                       
+community.aws.cloudformation_exports_info           Read a value from CloudFormation Exports                                                                          
+community.aws.cloudformation_stack_set              Manage groups of CloudFormation stacks                                                                            
+community.aws.cloudfront_distribution               Create, update and delete AWS CloudFront distributions                                                            
+community.aws.cloudfront_distribution_info          Obtain facts about an AWS CloudFront distribution                                                                 
+community.aws.cloudfront_invalidation               create invalidations for AWS CloudFront distributions                                                             
+community.aws.cloudfront_origin_access_identity     Create, update and delete origin access identities for a CloudFront distribution                                  
+community.aws.cloudfront_response_headers_policy    Create, update and delete response headers policies to be used in a Cloudfront distribution                       
+community.aws.codebuild_project                     Create or delete an AWS CodeBuild project                                                                         
+community.aws.codecommit_repository                 Manage repositories in AWS CodeCommit                                                                             
+community.aws.codepipeline                          Create or delete AWS CodePipelines                                                                                
+community.aws.config_aggregation_authorization      Manage cross-account AWS Config authorizations                                                                    
+community.aws.config_aggregator                     Manage AWS Config aggregations across multiple accounts                                                           
+community.aws.config_delivery_channel               Manage AWS Config delivery channels                                                                               
+community.aws.config_recorder                       Manage AWS Config Recorders                                                                                       
+community.aws.config_rule                           Manage AWS Config rule resources                                                                                  
+community.aws.data_pipeline                         Create and manage AWS Datapipelines                                                                               
+community.aws.directconnect_confirm_connection      Confirms the creation of a hosted DirectConnect connection                                                        
+community.aws.directconnect_connection              Creates, deletes, modifies a DirectConnect connection                                                             
+community.aws.directconnect_gateway                 Manage AWS Direct Connect gateway                                                                                 
+community.aws.directconnect_link_aggregation_group  Manage Direct Connect LAG bundles                                                                                 
+community.aws.directconnect_virtual_interface       Manage Direct Connect virtual interfaces                                                                          
+community.aws.dms_endpoint                          Creates or destroys a data migration services endpoint                                                            
+community.aws.dms_replication_subnet_group          creates or destroys a data migration services subnet group                                                        
+community.aws.dynamodb_table                        Create, update or delete AWS Dynamo DB tables                                                                     
+community.aws.dynamodb_table_info                   Returns information about a Dynamo DB table                                                                       
+community.aws.dynamodb_ttl                          Set TTL for a given DynamoDB table                                                                                
+community.aws.ec2_ami_copy                          copies AMI between AWS regions, return new image id                                                               
+community.aws.ec2_carrier_gateway                   Manage an AWS VPC Carrier gateway                                                                                 
+community.aws.ec2_carrier_gateway_info              Gather information about carrier gateways in AWS                                                                  
+community.aws.ec2_customer_gateway                  Manage an AWS customer gateway                                                                                    
+community.aws.ec2_customer_gateway_info             Gather information about customer gateways in AWS                                                                 
+community.aws.ec2_snapshot_copy                     Copies an EC2 snapshot and returns the new Snapshot ID                                                            
+community.aws.ec2_win_password                      Gets the default administrator password for EC2 Windows instances                                                 
+community.aws.ecs_attribute                         manage ecs attributes                                                                                             
+community.aws.ecs_cluster                           Create or terminate ECS clusters                                                                                  
+community.aws.ecs_ecr                               Manage Elastic Container Registry repositories                                                                    
+community.aws.ecs_service                           Create, terminate, start or stop a service in ECS                                                                 
+community.aws.ecs_service_info                      List or describe services in ECS                                                                                  
+community.aws.ecs_tag                               create and remove tags on Amazon ECS resources                                                                    
+community.aws.ecs_task                              Run, start or stop a task in ECS                                                                                  
+community.aws.ecs_taskdefinition                    register a task definition in ecs                                                                                 
+community.aws.ecs_taskdefinition_info               Describe a task definition in ECS                                                                                 
+community.aws.efs                                   create and maintain EFS file systems                                                                              
+community.aws.efs_info                              Get information about Amazon EFS file systems                                                                     
+community.aws.efs_tag                               create and remove tags on Amazon EFS resources                                                                    
+community.aws.eks_cluster                           Manage Elastic Kubernetes Service (EKS) Clusters                                                                  
+community.aws.eks_fargate_profile                   Manage EKS Fargate Profile                                                                                        
+community.aws.eks_nodegroup                         Manage EKS Nodegroup module                                                                                       
+community.aws.elasticache                           Manage cache clusters in Amazon ElastiCache                                                                       
+community.aws.elasticache_info                      Retrieve information for AWS ElastiCache clusters                                                                 
+community.aws.elasticache_parameter_group           Manage cache parameter groups in Amazon ElastiCache                                                               
+community.aws.elasticache_snapshot                  Manage cache snapshots in Amazon ElastiCache                                                                      
+community.aws.elasticache_subnet_group              manage ElastiCache subnet groups                                                                                  
+community.aws.elasticbeanstalk_app                  Create, update, and delete an Elastic Beanstalk application                                                       
+community.aws.elb_instance                          De-registers or registers instances from EC2 ELBs                                                                 
+community.aws.elb_network_lb                        Manage a Network Load Balancer                                                                                    
+community.aws.elb_target                            Manage a target in a target group                                                                                 
+community.aws.elb_target_group                      Manage a target group for an Application or Network load balancer                                                 
+community.aws.elb_target_group_info                 Gather information about ELB target groups in AWS                                                                 
+community.aws.elb_target_info                       Gathers which target groups a target is associated with                                                           
+community.aws.glue_connection                       Manage an AWS Glue connection                                                                                     
+community.aws.glue_crawler                          Manage an AWS Glue crawler                                                                                        
+community.aws.glue_job                              Manage an AWS Glue job                                                                                            
+community.aws.iam_saml_federation                   Maintain IAM SAML federation configuration                                                                        
+community.aws.iam_server_certificate                Manage IAM server certificates for use on ELBs and CloudFront                                                     
+community.aws.iam_server_certificate_info           Retrieve the information of a server certificate                                                                  
+community.aws.inspector_target                      Create, Update and Delete Amazon Inspector Assessment Targets                                                     
+community.aws.kinesis_stream                        Manage a Kinesis Stream                                                                                           
+community.aws.lightsail                             Manage instances in AWS Lightsail                                                                                 
+community.aws.lightsail_snapshot                    Creates snapshots of AWS Lightsail instances                                                                      
+community.aws.lightsail_static_ip                   Manage static IP addresses in AWS Lightsail                                                                       
+community.aws.mq_broker                             MQ broker management                                                                                              
+community.aws.mq_broker_config                      Update Amazon MQ broker configuration                                                                             
+community.aws.mq_broker_info                        Retrieve MQ Broker details                                                                                        
+community.aws.mq_user                               Manage users in existing Amazon MQ broker                                                                         
+community.aws.mq_user_info                          List users of an Amazon MQ broker                                                                                 
+community.aws.msk_cluster                           Manage Amazon MSK clusters                                                                                        
+community.aws.msk_config                            Manage Amazon MSK cluster configurations                                                                          
+community.aws.networkfirewall                       manage AWS Network Firewall firewalls                                                                             
+community.aws.networkfirewall_info                  describe AWS Network Firewall firewalls                                                                           
+community.aws.networkfirewall_policy                manage AWS Network Firewall policies                                                                              
+community.aws.networkfirewall_policy_info           describe AWS Network Firewall policies                                                                            
+community.aws.networkfirewall_rule_group            create, delete and modify AWS Network Firewall rule groups                                                        
+community.aws.networkfirewall_rule_group_info       describe AWS Network Firewall rule groups                                                                         
+community.aws.opensearch                            Creates OpenSearch or ElasticSearch domain                                                                        
+community.aws.opensearch_info                       obtain information about one or more OpenSearch or ElasticSearch domain                                           
+community.aws.redshift                              create, delete, or modify an Amazon Redshift instance                                                             
+community.aws.redshift_cross_region_snapshots       Manage Redshift Cross Region Snapshots                                                                            
+community.aws.redshift_info                         Gather information about Redshift cluster(s)                                                                      
+community.aws.redshift_subnet_group                 manage Redshift cluster subnet groups                                                                             
+community.aws.route53_wait                          wait for changes in Amazons Route 53 DNS service to propagate                                                     
+community.aws.s3_bucket_notification                Creates, updates or deletes S3 Bucket notifications targeting Lambda functions, SNS or SQS                        
+community.aws.s3_cors                               Manage CORS for S3 buckets in AWS                                                                                 
+community.aws.s3_lifecycle                          Manage S3 bucket lifecycle rules in AWS                                                                           
+community.aws.s3_logging                            Manage logging facility of an s3 bucket in AWS                                                                    
+community.aws.s3_metrics_configuration              Manage s3 bucket metrics configuration in AWS                                                                     
+community.aws.s3_sync                               Efficiently upload multiple files to S3                                                                           
+community.aws.s3_website                            Configure an s3 bucket as a website                                                                               
+community.aws.secretsmanager_secret                 Manage secrets stored in AWS Secrets Manager                                                                      
+community.aws.ses_identity                          Manages SES email and domain identity                                                                             
+community.aws.ses_identity_policy                   Manages SES sending authorization policies                                                                        
+community.aws.ses_rule_set                          Manages SES inbound receipt rule sets                                                                             
+community.aws.sns                                   Send Amazon Simple Notification Service messages                                                                  
+community.aws.sns_topic                             Manages AWS SNS topics and subscriptions                                                                          
+community.aws.sns_topic_info                        sns_topic_info module                                                                                             
+community.aws.sqs_queue                             Creates or deletes AWS SQS queues                                                                                 
+community.aws.ssm_inventory_info                    Get SSM inventory information for EC2 instance                                                                    
+community.aws.ssm_parameter                         Manage key-value pairs in AWS Systems Manager Parameter Store                                                     
+community.aws.stepfunctions_state_machine           Manage AWS Step Functions state machines                                                                          
+community.aws.stepfunctions_state_machine_execution Start or stop execution of an AWS Step Functions state machine                                                    
+community.aws.storagegateway_info                   Fetch AWS Storage Gateway information                                                                             
+community.aws.sts_session_token                     obtain a session token from the AWS Security Token Service                                                        
+community.aws.waf_condition                         Create and delete WAF Conditions                                                                                  
+community.aws.waf_info                              Retrieve information for WAF ACLs, Rules, Conditions and Filters                                                  
+community.aws.waf_rule                              Create and delete WAF Rules                                                                                       
+community.aws.waf_web_acl                           Create and delete WAF Web ACLs                                                                                    
+community.aws.wafv2_ip_set                          wafv2_ip_set                                                                                                      
+community.aws.wafv2_ip_set_info                     Get information about wafv2 ip sets                                                                               
+community.aws.wafv2_resources                       wafv2_web_acl                                                                                                     
+community.aws.wafv2_resources_info                  wafv2_resources_info                                                                                              
+community.aws.wafv2_rule_group                      wafv2_web_acl                                                                                                     
+community.aws.wafv2_rule_group_info                 wafv2_web_acl_info                                                                                                
+community.aws.wafv2_web_acl                         Create and delete WAF Web ACLs                                                                                    
+community.aws.wafv2_web_acl_info                    wafv2_web_acl                                                                                                     

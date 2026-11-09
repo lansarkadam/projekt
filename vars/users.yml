@@ -1,0 +1,11 @@
+---
+user_list:
+  - name: alice
+    groups: developers
+    admin: false
+  - name: bob
+    groups: developers, admins
+    admin: false
+  - name: charlie
+    groups: admins
+    admin: true

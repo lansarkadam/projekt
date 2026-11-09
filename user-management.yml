@@ -1,0 +1,50 @@
+---
+- name: Manage user and groups
+  hosts: all
+  vars:
+    dev_password: "{{ 'redhat123' | password_hash('sha512') }}"
+  tasks:
+    - name: Create developers group
+      ansible.builtin.group:
+        name: developers
+        state: present
+        gid: 3000
+
+    - name: Create admins group
+      ansible.builtin.group:
+        name: admins
+        state: present
+        gid: 3001
+
+    - name: Create devuser1
+      ansible.builtin.user:
+        name: devuser1
+        uid: 3001
+        group: developers
+        state: present
+        password: "{{ dev_password }}"
+
+    - name: Create user devuser2
+      ansible.builtin.user:
+        name: devuser2
+        uid: 3002
+        group: developers
+        state: present
+        password: "{{ dev_password }}"
+
+    - name: Create adminuser1
+      ansible.builtin.user:
+        name: adminuser1
+        uid: 3003
+        group: admins
+        state: present
+
+    - name: Grant sudo to adminuser1
+      ansible.builtin.copy:
+        content: "adminuser1 ALL=(ALL) NOPASSWD:ALL\n"
+        dest: /etc/sudoers.d/adminuser1
+        mode: '0440'
+        validate: '/usr/sbin/visudo -csf %s'
+
+
+
