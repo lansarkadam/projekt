@@ -134,4 +134,53 @@ find /etc -type f -size +4M -exec cp {} /files/largefiles/ \;
 grep "strato" /usr/share/dict/words > /searchfile
 ```
 
+11. Configure autofs to automount the home directory of remoteuserx user. 
+
+```
+dnf install autofs nfs-utils -y
+```
+
+showmount -e adres IP lub nazwa na której wystawiony jest zasób
+
+```
+[root@server1 ~]# showmount -e 192.168.0.216
+Export list for 192.168.0.216:
+/software 192.168.0.215
+```
+
+```
+vim /etc/auto.master.d/software.autofs
+```
+zawartość
+
+```
+/server2 /etc/auto.software --timeout=60
+```
+lub
+
+```
+/- /etc/auto.software --timeout=60
+```
+
+```
+vim /etc/auto.software
+```
+zawartość
+ - pierwsza opcja z "/server2"
+```
+automount -fstype=nfs4,rw,sync,initr 192.168.0.216:/software
+
+```
+
+lub
+
+- druga opcja z "/-"
+```
+/automount -fstype=nfs4,rw,sync,initr 192.168.0.216:/software
+```
+
+
+
+
+
 
