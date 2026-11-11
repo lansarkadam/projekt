@@ -179,8 +179,48 @@ lub
 /automount -fstype=nfs4,rw,sync,initr 192.168.0.216:/software
 ```
 
+12. Dodanie użytkownika o określonym UID
 
+```
+useradd -u 2112 barry
+```
 
+13. Copy /etc/fstab to /var/tmp oraz nadanie uprawnień przez setfacl
 
+```
+setfacl -m u:harry:rw /var/tmp/fstab
+setfacl -m u:natasha:--- /var/tmp/fstab
+getfacl /var/tmp/fstab
+```
 
+14. Config permision  - wykorzystanie umask
 
+su - natasha
+
+vim .bash_profile
+
+dodać 
+
+umask 0277
+
+wylogować się z użytkownika i zalogować się ponownie
+
+sprawdzić umask co zostało ustawione
+
+15. Ustawienie zmiany hasła co 20 dni
+
+vim /etc/login.defs
+chage -l natasha
+useradd test
+chage -l test
+
+16. Dodanie grupy admin do sudo without password
+
+```
+visudo
+```
+dodać
+
+```
+%admin ALL=(ALL)        NOPASSWD: ALL
+```
