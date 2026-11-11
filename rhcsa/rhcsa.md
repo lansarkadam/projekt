@@ -224,3 +224,19 @@ dodać
 ```
 %admin ALL=(ALL)        NOPASSWD: ALL
 ```
+17. Reset hasła root
+
+wpisać na końcu
+
+rd.break
+
+mount -o remount,rw /sysroot/
+
+chroot /sysroot/
+
+passwd
+
+podać nowe hasło dwa razy
+
+touch /.autorelabel
+
