@@ -240,3 +240,81 @@ podać nowe hasło dwa razy
 
 touch /.autorelabel
 
+18. SWAP dodanie nowej partycji 512M dla SWAP
+
+fdisk /dev/sdb
+n
+p
++512M
+t
+82 - swap
+
+w
+q
+
+```
+mkswap /dev/sdb1
+```
+
+```
+blkid
+```
+
+pobrać uid i wstawić do /etc/fstab
+
+```
+UUID="0437135a-6978-451e-992f-850e3eb28aec" swap 			  swap 	  defaults 	  0 0
+```
+```
+swapon -a
+swapon -s
+```
+
+
+
+19. Partycja LVM
+
+ - 8 extend VOLUMEGROUP
+ - 50 extend LOGICAL VOLUME GROUP
+
+
+fdisk /dev/sdb
+
+n
+p
+
++2G
+
+t
+8e - lvm partition
+
+w
+q
+
+ pvcreate /dev/sdb2
+
+- utworzenie voluegroup 50 extendow
+```
+vgcreate -s 8MB datastore /dev/sdb2
+vgs
+vgscan
+vgdisplay
+```
+- utworzenie logical volume 50 extendów - cała hartycja będzie miała wtedy 400MiB - taka informacja powinna być w zadaniu na egzaminie, ewentualnie trzeba pomnożyć itd.
+```
+lvcreate -l 50 -n database datastore
+```
+
+```
+mkdir -p /mnt/database
+blkid
+mkfs.ext3 /dev/datastore/database
+vim /etc/fstab
+lvscan
+mount -a
+systemctl daemon-reload
+```
+
+
+
+
