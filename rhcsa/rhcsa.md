@@ -317,4 +317,53 @@ systemctl daemon-reload
 
 
 
+20. Instalacja flatpak oraz instalacja firefox i VisualStudio Code
+
+```
+dnf install flatpak -y
+```
+
+- Rejestracja repozytoriów
+
+```
+flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+flatpak remote-add --if-not-exists rhel https://flatpaks.redhat.io/rhel.flatpakrepo
+```
+
+- weryfikacja zainstalowanych aplikacji
+```
+flatpak list
+```
+- weryfikacja remotes dodanych
+```
+flatpak remotes
+```
+
+- wyszukanie firefox
+```
+flatpak search firefox
+```
+- instalacja firefox po Application ID
+
+```
+flatpak install rhel org.mozilla.firefox
+```
+
+- instalacja vscode
+```
+flatpak install flathub com.visualstudio.code
+```
+
+- uruchamianie aplikacja z poziomu terminala
+
+```
+flatpak run com.visualstudio.code
+```
+
+- uninstall
+```
+flatpak uninstall com.visualstudio.code
+```
+
+
 
