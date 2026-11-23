@@ -441,6 +441,7 @@ Description=Run EX200 v10 script on schedul
 
 [Timer]
 OnCalendar=*:0/2
+Unit=ex200scripts.service
 
 #OnCalendar=*-*-* 0/2:00:00   - co 2h
 #OnCalendar=Thu 08:00:00      - raz w tygodniu Czwartek o 8 rano, jeżeli ma być to inny dzień to wstawić: Mon, Tue, Wed, Thu, Fri, Sat, Sun
@@ -448,4 +449,15 @@ OnCalendar=*:0/2
 
 [Install]
 WantedBy=timers.target
+```
+
+
+```
+systemctl daemon-reload
+systemctl daemon-reexec
+```
+```
+systemctl enable --now ex200scripts.timer
+
+systemctl enable --now ex200scripts.service
 ```
