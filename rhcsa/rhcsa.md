@@ -375,6 +375,32 @@ cd /etc/flatpak/remotes.d/
 Dodanie zawartości do poniższego pliku
 sudo vim flatrepo.flatpakrepo
 
+
+
+- Instalacja mozilla firefox z obrazu ISO zamontowanego do systemu
+```
+mount -o loop rhel-10.2-x86_64-dvd.iso /mnt/rhel10iso/
+```
+```
+flatpak install -y --sideload-repo=oci:/mnt/rhel10iso/Flatpaks rhel org.mozilla.firefox
+flatpak list
+flatpak info org.mozilla.firefox
+flatpak uninstall org.mozilla.firefox
+flatpak uninstall --unused
+```
+```
+dnf list 'postgresql*server'
+dnf install postgresql-server -y
+rpm -qa |grep postgresql
+dnf remove postgresql-server*
+```
+```
+dnf group list
+dnf group info 'Development Tools'
+dnf group install 'Development Tools'
+dnf group remove 'Development Tools'
+```
+
 21. Skrypt systemd timer
 ```
 cd /usr/local/bin/
