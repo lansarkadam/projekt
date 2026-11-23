@@ -226,19 +226,17 @@ dodać
 ```
 17. Reset hasła root
 
-wpisać na końcu
+- wpisać na końcu po wciśnięciu "e" podczas odpalania VM
 
-rd.break
-
-mount -o remount,rw /sysroot/
-
-chroot /sysroot/
+```
+init=/bin/sh rw
 
 passwd
 
-podać nowe hasło dwa razy
-
 touch /.autorelabel
+
+exec /sbin/init 6
+```
 
 18. SWAP dodanie nowej partycji 512M dla SWAP
 
@@ -332,12 +330,17 @@ flatpak remote-add --if-not-exists rhel https://flatpaks.redhat.io/rhel.flatpakr
 
 - weryfikacja zainstalowanych aplikacji
 ```
-flatpak list
+flatpak list --app
 ```
 - weryfikacja remotes dodanych
 ```
 flatpak remotes
 ```
+- wyświetlenie dostepnych aplikacji 
+```
+flatpak remote-ls
+```
+
 
 - wyszukanie firefox
 ```
@@ -365,5 +368,10 @@ flatpak run com.visualstudio.code
 flatpak uninstall com.visualstudio.code
 ```
 
+- Inna wersja dodania repo FLATPAK
 
+cd /etc/flatpak/remotes.d/
+
+Dodanie zawartości do poniższego pliku
+sudo vim flatrepo.flatpakrepo
 
