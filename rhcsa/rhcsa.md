@@ -375,3 +375,51 @@ cd /etc/flatpak/remotes.d/
 Dodanie zawartości do poniższego pliku
 sudo vim flatrepo.flatpakrepo
 
+21. Skrypt systemd timer
+```
+cd /usr/local/bin/
+vim testtimer.sh
+```
+- dodać zawartość
+
+```
+#!/bin/bash
+echo "Hello From EX200 v10" >> /var/log/ex200.log
+```
+```
+chmod +x testtimer.sh
+```
+```
+cd /etc/systemd/system/
+```
+```
+vim ex200scripts.service
+```
+- dodać zawartośc
+```
+[Unit]
+Description= EX200 v10
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/testtimer.sh
+```
+```
+vim ex200scripts.timer
+```
+- dodać zawartość
+
+```
+[Unit]
+Description=Run EX200 v10 script on schedul
+
+[Timer]
+OnCalendar=*:0/2
+
+#OnCalendar=*-*-* 0/2:00:00   - co 2h
+#OnCalendar=Thu 08:00:00      - raz w tygodniu Czwartek o 8 rano, jeżeli ma być to inny dzień to wstawić: Mon, Tue, Wed, Thu, Fri, Sat, Sun
+#OnCalendar=*:0/25            - co 25 minut
+
+[Install]
+WantedBy=timers.target
+```
