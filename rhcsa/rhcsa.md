@@ -40,6 +40,27 @@ man semanage-port
 semanage port -a -t http_port_t -p tcp 82
 ```
 
+- weryfikacja httpd_sys_content_t, manual
+
+```
+semanage fcontext -l |grep httpd_sys_con
+```
+```
+ls -lZ /var/www/html/
+```
+
+- ustawienie na index.html
+
+```
+ls -lZ /var/www/html/
+chcon -t httpd_sys_content_t index.html
+```
+lub 
+
+```
+semanage fcontext -a -t httpd_sys_content_t "/web(/.*)?"
+```
+
 - Dodanie portu 82 do firewalld
 
 ```
