@@ -296,7 +296,7 @@ swapon -s
  - 8 extend VOLUMEGROUP
  - 50 extend LOGICAL VOLUME GROUP
 
-
+```
 fdisk /dev/sdb
 
 n
@@ -311,6 +311,7 @@ w
 q
 
  pvcreate /dev/sdb2
+```
 
 - utworzenie voluegroup 50 extendow
 ```
@@ -347,6 +348,20 @@ dnf install flatpak -y
 ```
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 flatpak remote-add --if-not-exists rhel https://flatpaks.redhat.io/rhel.flatpakrepo
+```
+- Rejestracja dla USER-a
+
+-- zalogować się na użytkownika i wykonać poniższe polecenie
+
+```
+test@servera:~$ flatpak remote-add --user --if-not-exists extra https://flathub.org/repo/flathub.flatpakrepo
+```
+```
+flatpak remotes --user
+```
+```
+Name  Options
+extra
 ```
 
 - weryfikacja zainstalowanych aplikacji
