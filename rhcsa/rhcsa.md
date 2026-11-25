@@ -363,7 +363,13 @@ flatpak remotes --user
 Name  Options
 extra
 ```
+- instalacja z user-a
 
+`flatpak search firefox`
+
+```
+flatpak install --user flathub org.mozilla.firefox
+```
 - weryfikacja zainstalowanych aplikacji
 ```
 flatpak list --app
