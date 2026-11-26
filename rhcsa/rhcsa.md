@@ -148,6 +148,15 @@ find / -user simeone -exec cp -arvf {} /root/found/ \;
 ```
 find /etc -type f -size +4M -exec cp {} /files/largefiles/ \;
 ```
+-  skrypt find większe pliki niż 30k i mniejsze niż 50k z lokalizacji /usr
+
+```
+#!/bin/bash
+find /usr -size +30k -size -50k -perm -u=s
+```
+```
+chmod +x newsearch.sh
+```
 
 10. Find the string w plikach
 
